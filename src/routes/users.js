@@ -1,5 +1,5 @@
 let host = "";
-if (process.env.NODE_ENV) {
+if (process.env.NODE_ENV ==="development") {
   host = "http://localhost:8081";
 }
 
