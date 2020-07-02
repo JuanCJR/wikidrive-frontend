@@ -1,6 +1,16 @@
 import axios from "axios";
 import getRoute from "../routes/drive";
 export default class DriveService {
+
+//mueve a papelera de reciclaje
+async moveToRecycleBin(route,objName){
+  const result = await axios.post(getRoute("recyclebin"), {
+    route: route,
+    objName: objName,
+  });
+  return result.data;
+}
+
   //Cambia nombre de objeto
   async changeName(route, newName, oldName) {
     const result = await axios.post(getRoute("changename"), {

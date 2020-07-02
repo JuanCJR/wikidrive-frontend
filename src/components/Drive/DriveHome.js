@@ -91,33 +91,33 @@ export default class DriveHome extends Component {
     } = props;
 
     const onClickObj = async (route, obj) => {
-      if (obj.type === "dir") {
+      if (obj.objType === "dir") {
         const newObjs = await driverService.getDir(
-          `${route}/${obj.name}`,
+          `${route}/${obj.objName}`,
           user.userName,
           user.type
         );
         let routes = storedRoutes;
-        const exists = storedRoutes.filter((s) => s.name === obj.name);
+        const exists = storedRoutes.filter((s) => s.name === obj.objName);
         if (!exists.length) {
           routes.push({
-            name: obj.name,
-            route: `${route}/${obj.name}`,
+            name: obj.objName,
+            route: `${route}/${obj.objName}`,
           });
         }
         this.setState({
           objs: newObjs,
-          route: `${route}/${obj.name}`,
+          route: `${route}/${obj.objName}`,
           storedRoutes: routes,
         });
       } else {
-        await driverService.downloadFile(route, obj.name);
+        await driverService.downloadFile(route, obj.objName);
       }
     };
 
     return objs.map((o) => (
-      <tr key={o.name}>
-        <td colSpan="4">
+      <tr key={o._id}>
+        <td>
           <Dropdown as={ButtonGroup} className="w-100">
             <Button
               onClick={async () => {
@@ -129,37 +129,46 @@ export default class DriveHome extends Component {
               <img
                 className="pr-2 ml-2"
                 alt="dashboard-icon"
-                src={o.type === "dir" ? "img/folder.png" : "img/file.png"}
+                src={o.objType === "dir" ? "img/folder.png" : "img/file.png"}
               ></img>
-              {o.name}
+              {o.objName}
             </Button>
             <Dropdown.Toggle split variant="outline-secondary" />
             <Dropdown.Menu>
-              {/* Boton renombrar */}
-              <props.renameButton
-                route={route}
-                type={o.type}
-                objName={o.name}
-                driverService={driverService}
-                refreshList={refreshList}
-              />
-              {/* Boton Eliminar */}
-              <props.deleteButton
-                route={route}
-                type={o.type}
-                objName={o.name}
-                driverService={driverService}
-                refreshList={refreshList}
-              />
+              {user.type === "admin" ? (
+                <React.Fragment>
+                  {/* Boton renombrar */}
+                  <props.renameButton
+                    route={route}
+                    type={o.objType}
+                    objName={o.objName}
+                    driverService={driverService}
+                    refreshList={refreshList}
+                  />
+                  {/* Boton Eliminar */}
+                  <props.deleteButton
+                    route={route}
+                    type={o.type}
+                    objName={o.objName}
+                    driverService={driverService}
+                    refreshList={refreshList}
+                  />
+                </React.Fragment>
+              ) : (
+                <React.Fragment></React.Fragment>
+              )}
             </Dropdown.Menu>
           </Dropdown>
         </td>
+        <td>{o.uploadBy}</td>
+        <td>{new Date(o.createdAt).toLocaleDateString()}</td>
+        <td>{o.objType === "file" ? `${o.objSize} MB` : "-"}</td>
       </tr>
     ));
   };
   //Boton para renombrar
   renameButton = (props) => {
-    const {objName, driverService, route, refreshList } = props;
+    const { objName, driverService, route, refreshList } = props;
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -237,7 +246,7 @@ export default class DriveHome extends Component {
 
         await refreshList();
       } else {
-        const result = await driverService.deleteFile(route, objName);
+        const result = await driverService.moveToRecycleBin(route, objName);
         console.log(result);
         await refreshList();
       }
@@ -305,9 +314,10 @@ export default class DriveHome extends Component {
           <Table size="sm">
             <thead>
               <tr>
-                <th colSpan="4">Nombre</th>
-                {/* <th>Propietario</th>
-                <th>Tamaño del Archivo</th> */}
+                <th>Nombre</th>
+                <th>Propietario</th>
+                <th>Fecha de creación</th>
+                <th>Tamaño del Archivo</th> 
               </tr>
             </thead>
             <tbody>
@@ -332,6 +342,7 @@ export default class DriveHome extends Component {
           </Table>
         </div>
         <NewObj
+          user={this.props.user}
           refreshList={this.refreshList}
           driverService={this.state.driverService}
           route={this.state.route}

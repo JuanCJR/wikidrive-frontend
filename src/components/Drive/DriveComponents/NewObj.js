@@ -14,11 +14,13 @@ export default class NewObj extends Component {
     return (
       <DropdownButton drop="up" className="ml-auto mt-2 mb-2" title="Nuevo">
         <this.newFileButton
+          userName={this.props.user.userName}
           route={this.props.route}
           refreshList={this.props.refreshList}
           driverService={this.props.driverService}
         />
         <this.newDirButton
+          userName={this.props.user.userName}
           route={this.props.route}
           refreshList={this.props.refreshList}
           driverService={this.props.driverService}
@@ -28,7 +30,7 @@ export default class NewObj extends Component {
   }
   //Boton para nuevo directorio
   newDirButton = (props) => {
-    const { route, driverService, refreshList } = props;
+    const { route, driverService, refreshList,userName } = props;
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -116,6 +118,7 @@ export default class NewObj extends Component {
       const objInfo = {
         dirName: state.dirName,
         route: route,
+        userName:userName,
         authorizations: {
           type: state.type,
           users: users,
@@ -233,7 +236,7 @@ export default class NewObj extends Component {
 
   //Boton para nuevo archivo
   newFileButton = (props) => {
-    const { route, driverService, refreshList } = props;
+    const { route, driverService, refreshList, userName } = props;
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -320,27 +323,27 @@ export default class NewObj extends Component {
       const users = state.users.filter((u) => u.userName !== "");
       const groups = state.groups.filter((g) => g.groupName !== "");
       let formData = new FormData();
-
+      formData.append("userName", userName);
       formData.append("route", route);
       formData.append("type", state.type);
       formData.append("users", JSON.stringify(users));
       formData.append("groups", JSON.stringify(groups));
       formData.append("newFile", state.newFile[0]);
 
-      await driverService.uploadFile(formData);
-      // if (dirMsg.code === "EEXIST") {
-      //   changeState((state) => ({
-      //     ...state,
-      //     message: "El nombre del directorio ya existe.",
-      //   }));
-      // } else {
-      await refreshList();
-      changeState((state) => ({
-        ...state,
-        newFile: "",
-      }));
-      handleClose();
-      // }
+      const fileMsg = await driverService.uploadFile(formData);
+      if (fileMsg.code === "file-upload-false") {
+        changeState((state) => ({
+          ...state,
+          message: fileMsg.message,
+        }));
+      } else {
+        await refreshList();
+        changeState((state) => ({
+          ...state,
+          newFile: "",
+        }));
+        handleClose();
+      }
     };
 
     return (
@@ -376,8 +379,8 @@ export default class NewObj extends Component {
                 <React.Fragment>
                   <Row>
                     <Col>
-                       {/*Campo usuarios*/}
-                       {state.users.map((u, index) => (
+                      {/*Campo usuarios*/}
+                      {state.users.map((u, index) => (
                         <Form.Group
                           onChange={(e) => onChangeUser(e, index)}
                           key={`user-${index}`}
