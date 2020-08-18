@@ -53,7 +53,7 @@ export default class Signin extends Component {
       <React.Fragment>
         <Button
           className="w-100"
-          variant="outline-primary"
+          variant="outline-dark"
           onClick={async () => {
             const data = await props.onSubmit();
             if (data.code === "user-false") {
@@ -92,47 +92,52 @@ export default class Signin extends Component {
 
   render() {
     return (
-      <Container>
-        <Row className="mt-5">
-          <Col>
-            <Card className="shadowCard">
-              <h3 className="mb-4 mt-2 mx-auto">Inicio de Sesión</h3>
+      <div className="signin-container" style={{background:"linear-gradient(rgba(75, 123, 236,.2), rgba(75, 123, 236,.2)), url(img/fondo.jpg) 50% fixed",backgroundSize:"cover"}}>
+        <Container>
+          <Row className="justify-content-md-center mt-5">
+            <Col md={3}>
+              <Card className="shadowCard">
+                <h3 className="mb-4 mt-2 mx-auto">Inicio de Sesión</h3>
 
-              <Card.Body>
-                {/* Formulario de inicio de sesion */}
-                <Form>
-                  {/* Nombre de usuario */}
-                  <Form.Group controlId="txtName" onChange={this.onChangeUser}>
-                    <Form.Label>Usuario</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese su nombre de usuario"
-                      required
+                <Card.Body>
+                  {/* Formulario de inicio de sesion */}
+                  <Form>
+                    {/* Nombre de usuario */}
+                    <Form.Group
+                      controlId="txtName"
+                      onChange={this.onChangeUser}
+                    >
+                      <Form.Label>Usuario</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Ingrese su nombre de usuario"
+                        required
+                      />
+                    </Form.Group>
+
+                    {/* Contraseña */}
+                    <Form.Group
+                      controlId="txtPasswd"
+                      onChange={this.onChangePasswd}
+                    >
+                      <Form.Label>Contraseña</Form.Label>
+                      <Form.Control
+                        type="password"
+                        placeholder="Contraseña"
+                        required
+                      ></Form.Control>
+                    </Form.Group>
+                    <this.submitButton
+                      signinFunction={this.props.signinFunction}
+                      onSubmit={this.onSubmit}
                     />
-                  </Form.Group>
-
-                  {/* Contraseña */}
-                  <Form.Group
-                    controlId="txtPasswd"
-                    onChange={this.onChangePasswd}
-                  >
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Contraseña"
-                      required
-                    ></Form.Control>
-                  </Form.Group>
-                  <this.submitButton
-                    signinFunction={this.props.signinFunction}
-                    onSubmit={this.onSubmit}
-                  />
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+                  </Form>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     );
   }
 }

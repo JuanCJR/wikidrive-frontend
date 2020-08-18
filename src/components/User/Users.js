@@ -30,10 +30,17 @@ export default class Users extends Component {
     return (
       <Card className="shadowCard mt-2 pl-3 pr-3 cardHeight defaultFontSize">
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom mt-2">
-          <h3>Menú de Usuarios</h3>
+          <h3>
+            <img
+              className="pr-2 ml-2"
+              alt="dashboard-icon"
+              src="img/user_blue.png"
+            ></img>
+            Menú de Usuarios
+          </h3>
         </div>
 
-        <div className="tableContainer">
+        <div className="tableContainer scrollbar">
           <Table size="sm">
             <thead>
               <tr>

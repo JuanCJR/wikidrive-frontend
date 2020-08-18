@@ -12,7 +12,7 @@ import UserService from "../../../services/UserService";
 export default class NewObj extends Component {
   render() {
     return (
-      <DropdownButton drop="up" className="ml-auto mt-2 mb-2" title="Nuevo">
+      <DropdownButton variant="outline-dark" drop="left" className="ml-auto mt-2 mb-2" title="Nuevo">
         <this.newFileButton
           userName={this.props.user.userName}
           route={this.props.route}
@@ -144,7 +144,7 @@ export default class NewObj extends Component {
 
     return (
       <React.Fragment>
-        <Dropdown.Item onClick={handleShow}>Carpeta</Dropdown.Item>
+        <Dropdown.Item  onClick={handleShow}>Carpeta</Dropdown.Item>
         <Modal size="lg" show={show} onHide={handleClose}>
           <Form
             onSubmit={async (e) => {

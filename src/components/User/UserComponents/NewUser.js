@@ -80,8 +80,8 @@ export default class NewUser extends Component {
       <React.Fragment>
         <Button
           onClick={handleShow}
-          variant="primary"
-          className="text-center ml-auto"
+          variant="outline-dark"
+          className="text-center ml-auto mt-4"
           style={{ borderRadius: "80%", width: "4rem", height: "3.5rem" }}
         >
           <strong>+</strong>
@@ -145,7 +145,7 @@ export default class NewUser extends Component {
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="outline-danger">Cancelar</Button>
+              <Button onClick={handleClose} variant="outline-danger">Cancelar</Button>
               <Button variant="outline-success" type="submit">
                 Crear
               </Button>

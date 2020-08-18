@@ -13,7 +13,6 @@ export default class App extends Component {
   };
 
   async componentDidMount() {
-    
     let pageState = "";
     let user = {};
     if (sessionStorage.getItem("isLoggedIn")) {
@@ -34,19 +33,20 @@ export default class App extends Component {
 
   render() {
     return (
-      <this.renderPages
-        pageState={this.state.pageState}
-        signoutFunction={this.signoutFunction}
-        signinFunction={this.signinFunction}
-        user={this.state.user}
-
-      />
+      <div className="App" >
+        <this.renderPages
+          pageState={this.state.pageState}
+          signoutFunction={this.signoutFunction}
+          signinFunction={this.signinFunction}
+          user={this.state.user}
+        />
+      </div>
     );
   }
 
   //Controlador de renderizado de pagina de inicio
   renderPages = (props) => {
-    const { signinFunction, pageState, signoutFunction,user } = props;
+    const { signinFunction, pageState, signoutFunction, user } = props;
 
     switch (pageState) {
       case "signin":
@@ -54,9 +54,8 @@ export default class App extends Component {
       case "home":
         return (
           <React.Fragment>
-            <NavBar
-             signoutFunction={signoutFunction} user={user}/>
-            <Home user={user}/>
+            <NavBar signoutFunction={signoutFunction} user={user} />
+            <Home user={user} />
           </React.Fragment>
         );
       default:
@@ -69,7 +68,7 @@ export default class App extends Component {
     sessionStorage.setItem("_id", user._id);
     this.setState({
       pageState: "home",
-      user:user
+      user: user,
     });
   };
 

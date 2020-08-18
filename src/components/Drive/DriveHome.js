@@ -8,6 +8,7 @@ import {
   ButtonGroup,
   Modal,
   Form,
+  ListGroup,
 } from "react-bootstrap";
 import NewObj from "./DriveComponents/NewObj";
 import DriverService from "../../services/DriveService";
@@ -118,22 +119,37 @@ export default class DriveHome extends Component {
     return objs.map((o) => (
       <tr key={o._id}>
         <td>
-          <Dropdown as={ButtonGroup} className="w-100">
-            <Button
-              onClick={async () => {
-                await onClickObj(route, o);
-              }}
+          <Button
+            onClick={async () => {
+              await onClickObj(route, o);
+            }}
+            variant="outline-secondary"
+            className="w-100 text-left border-0"
+          >
+            <img
+              className="pr-2 ml-2"
+              alt="dashboard-icon"
+              src={o.objType === "dir" ? "img/folder.png" : "img/file.png"}
+            ></img>
+            {o.objName}
+          </Button>
+        </td>
+        <td>{o.uploadBy}</td>
+        <td>{new Date(o.createdAt).toLocaleDateString()}</td>
+        <td>{o.objType === "file" ? `${o.objSize} MB` : "-"}</td>
+        <td>
+          <Dropdown>
+            <Dropdown.Toggle
+              className="border-0 "
               variant="outline-secondary"
-              className="w-100 text-left border-0"
+              id="dropdown-basic"
             >
-              <img
+              {/* <img
                 className="pr-2 ml-2"
                 alt="dashboard-icon"
-                src={o.objType === "dir" ? "img/folder.png" : "img/file.png"}
-              ></img>
-              {o.objName}
-            </Button>
-            <Dropdown.Toggle split variant="outline-secondary" />
+                src="img/more.png"
+              ></img> */}
+            </Dropdown.Toggle>
             <Dropdown.Menu>
               {user.type === "admin" ? (
                 <React.Fragment>
@@ -160,12 +176,10 @@ export default class DriveHome extends Component {
             </Dropdown.Menu>
           </Dropdown>
         </td>
-        <td>{o.uploadBy}</td>
-        <td>{new Date(o.createdAt).toLocaleDateString()}</td>
-        <td>{o.objType === "file" ? `${o.objSize} MB` : "-"}</td>
       </tr>
     ));
   };
+
   //Boton para renombrar
   renameButton = (props) => {
     const { objName, driverService, route, refreshList } = props;
@@ -302,7 +316,14 @@ export default class DriveHome extends Component {
     return (
       <Card className="shadowCard mt-2 pl-3 pr-3 cardHeight defaultFontSize">
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-1 mb-1 border-bottom mt-2">
-          <h3>Drive</h3>
+          <h3>
+            <img
+              className="pr-2 ml-2"
+              alt="dashboard-icon"
+              src="img/cloud_blue.png"
+            ></img>
+            Drive
+          </h3>
         </div>
         <this.routesDivider
           user={this.props.user}
@@ -317,7 +338,7 @@ export default class DriveHome extends Component {
                 <th>Nombre</th>
                 <th>Propietario</th>
                 <th>Fecha de creación</th>
-                <th>Tamaño del Archivo</th> 
+                <th>Tamaño del Archivo</th>
               </tr>
             </thead>
             <tbody>

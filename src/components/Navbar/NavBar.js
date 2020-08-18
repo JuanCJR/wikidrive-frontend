@@ -38,7 +38,7 @@ export default class NavBar extends Component {
         </Navbar.Collapse>
         <Button
           className="ml-2"
-          variant="danger"
+          variant="outline-dark"
           style={{
             fontSize: "11px",
             paddingTop: "2px",

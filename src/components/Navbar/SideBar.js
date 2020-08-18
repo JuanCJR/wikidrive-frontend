@@ -13,28 +13,6 @@ export default class SideBar extends Component {
             <span style={{ fontSize: "12px", color: "#d2dae2" }}>Opciones</span>
           </h6>
           <ul className="nav flex-column mt-2">
-            {/* Drive */}
-            <li className="nav-item">
-              <img
-                className="pr-2 ml-2"
-                alt="dashboard-icon"
-                src="img/cloud.png"
-              ></img>
-              <Button
-                style={{
-                  border: "0px",
-                  fontSize: "inherit",
-                  paddingLeft: "4px",
-                  paddingRight: "4px",
-                }}
-                variant="outline-light"
-                onClick={() => {
-                  this.props.changePage("drive-home");
-                }}
-              >
-                Drive
-              </Button>
-            </li>
             {this.props.user.type === "admin" ? (
               <React.Fragment>
                 {/* Usuarios */}
@@ -57,6 +35,50 @@ export default class SideBar extends Component {
                     }}
                   >
                     Usuarios
+                  </Button>
+                </li>
+                {/* Drive */}
+                <li className="nav-item">
+                  <img
+                    className="pr-2 ml-2"
+                    alt="dashboard-icon"
+                    src="img/cloud.png"
+                  ></img>
+                  <Button
+                    style={{
+                      border: "0px",
+                      fontSize: "inherit",
+                      paddingLeft: "4px",
+                      paddingRight: "4px",
+                    }}
+                    variant="outline-light"
+                    onClick={() => {
+                      this.props.changePage("drive-home");
+                    }}
+                  >
+                    Drive
+                  </Button>
+                </li>
+                {/* Recycle Bin */}
+                <li className="nav-item">
+                  <img
+                    className="pr-2 ml-2"
+                    alt="dashboard-icon"
+                    src="img/recycle.png"
+                  ></img>
+                  <Button
+                    style={{
+                      border: "0px",
+                      fontSize: "inherit",
+                      paddingLeft: "4px",
+                      paddingRight: "4px",
+                    }}
+                    variant="outline-light"
+                    onClick={() => {
+                      this.props.changePage("recycle-bin");
+                    }}
+                  >
+                    Papelera
                   </Button>
                 </li>
                 {/* Grupos */}
@@ -83,7 +105,27 @@ export default class SideBar extends Component {
                 </li> */}
               </React.Fragment>
             ) : (
-              <li></li>
+              <li className="nav-item">
+                <img
+                  className="pr-2 ml-2"
+                  alt="dashboard-icon"
+                  src="img/cloud.png"
+                ></img>
+                <Button
+                  style={{
+                    border: "0px",
+                    fontSize: "inherit",
+                    paddingLeft: "4px",
+                    paddingRight: "4px",
+                  }}
+                  variant="outline-light"
+                  onClick={() => {
+                    this.props.changePage("drive-home");
+                  }}
+                >
+                  Drive
+                </Button>
+              </li>
             )}
           </ul>
 
@@ -102,10 +144,10 @@ export default class SideBar extends Component {
             width="120"
             className=""
             alt="logo-wikiDrive"
-            src="/img/wikidrive.png"
+            src="/img/clip-logobandera.png"
           ></img>
           <br></br>
-          <p style={{ fontSize: "8px" }}>© Copyright 2020 </p>
+          <p style={{ fontSize: "8px" }}>© Copyright 2019 Clip Tecnología </p>
         </div>
       </nav>
     );

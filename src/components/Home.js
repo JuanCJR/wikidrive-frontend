@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import SideBar from "./Navbar/SideBar";
 import DriveHome from "./Drive/DriveHome";
 import Users from "./User/Users";
+import RecycleBin from "./Drive/RecycleBin";
 import Groups from "./Groups/Groups";
 export default class Home extends Component {
   state = {
@@ -52,6 +53,8 @@ export default class Home extends Component {
         return <Users />;
       case "groups":
         return <Groups />;
+      case "recycle-bin":
+        return <RecycleBin user={user} />;
       default:
         return <div></div>;
     }
