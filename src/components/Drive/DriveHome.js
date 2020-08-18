@@ -164,7 +164,7 @@ export default class DriveHome extends Component {
                   {/* Boton Eliminar */}
                   <props.deleteButton
                     route={route}
-                    type={o.type}
+                    type={o.objType}
                     objName={o.objName}
                     driverService={driverService}
                     refreshList={refreshList}
@@ -211,6 +211,7 @@ export default class DriveHome extends Component {
             onSubmit={async (e) => {
               e.preventDefault();
               await onSubmit();
+              handleClose()
             }}
           >
             <Modal.Header>
